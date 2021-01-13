@@ -2,20 +2,10 @@ import React, { Component } from 'react';
 import './App.css';
 import { Row } from 'antd';
 import { connect } from "react-redux"
-import {
-  fetchFilters,
-  fetchFiltersSuccess,
-  fetchFiltersFailure,
-
-  fetchProducts,
-  fetchProductsSuccess,
-  fetchProductsFailure,
-
-  fetchFilteredProducts
-} from "./actions";
-import { fetchFiltersByAPI, fetchProductsByAPI } from "./mockAPICalls";
+import { fetchFilteredProducts } from "./actions";
 import ProductCard from "./components/ProductCard";
 import CategoryInput from "./components/CategoryInput";
+import { getFilters, getProducts } from "./dispatchers"
 
 class App extends Component {
   constructor(props) {
@@ -94,28 +84,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getFilters: async () => {
-      dispatch(fetchFilters());
-
-      try {
-        const response = await fetchFiltersByAPI();
-        dispatch(fetchFiltersSuccess(response));
-      } catch (err) {
-        console.error(err);
-        dispatch(fetchFiltersFailure(err));
-      }
-    },
-    getProducts: async () => {
-      dispatch(fetchProducts());
-
-      try {
-        const response = await fetchProductsByAPI();
-        dispatch(fetchProductsSuccess(response));
-      } catch (err) {
-        console.error(err);
-        dispatch(fetchProductsFailure(err));
-      }
-    },
+    getFilters: (dispatch) => getFilters(dispatch),
+    getProducts: (dispatch) => getProducts(dispatch),
     getFilteredProducts: (selectedFilters) => dispatch(fetchFilteredProducts(selectedFilters))
   }
 }

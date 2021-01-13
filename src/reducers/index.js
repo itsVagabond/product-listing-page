@@ -77,18 +77,18 @@ export default function reducer(state = defaultState, action) {
             }
         };
         case FETCH_FILTERED_PRODUCTS: {
-            let filteredProducts;
-            const { data } = state.products;
+            // let filteredProducts;
+            // const { data } = state.products;
 
-            if(payload.length === 0) {
-                filteredProducts = data;
-            } else {
-                filteredProducts = data.filter(res => payload.indexOf(res.CategoryName) > -1);
-            }
+            // if(payload.length === 0) {
+            //     filteredProducts = data;
+            // } else {
+            //     filteredProducts = data.filter(res => payload.indexOf(res.CategoryName) > -1);
+            // }
             
             return {
                 ...state,
-                filteredProducts
+                filteredProducts: state.products.data && (state.products.data.length > 0 ? state.products.data.filter(res => payload.indexOf(res.CategoryName) > -1) : state.products.data) || []
             };
 
         }
